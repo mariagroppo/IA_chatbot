@@ -6,7 +6,9 @@ from sentence_transformers import SentenceTransformer
 from dotenv import load_dotenv
 
 load_dotenv()
-model = SentenceTransformer(os.getenv("MODEL1"))
+
+DEFAULT_EMBEDDING_MODEL = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
+model = SentenceTransformer(os.getenv("EMBEDDING_MODEL", DEFAULT_EMBEDDING_MODEL))
 
 """ Extract most frequent words (simple TF) ---------------------------------------------------------- """
 def extract_keywords(text, top_k=10):
@@ -27,6 +29,9 @@ def extract_keywords(text, top_k=10):
 
 """ Groups similar words based on cosine similarity -------------------------------------------------"""
 def group_synonyms(words, threshold=0.75):
+    if not words:
+        return []
+
     embeddings = model.encode(words, normalize_embeddings=True)
     groups = []
     used = set()
@@ -65,4 +70,9 @@ def build_synonym_dictionary(documents):
     # Group synonyms
     synonym_groups = group_synonyms(all_keywords)
 
-    return synonym_groups
+    synonym_dict = {}
+    for group in synonym_groups:
+        for word in group:
+            synonym_dict[word] = [item for item in group if item != word]
+
+    return synonym_dict

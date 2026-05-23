@@ -14,6 +14,14 @@ def main():
     
     t0_total = time.perf_counter()
 
+    print("Selecciona el modelo a usar:")
+    print("1 - OpenAI")
+    print("2 - HuggingFace")
+    llm_provider = input("Opcion: ").strip()
+    if llm_provider not in {"1", "2"}:
+        print("Opcion invalida. Se usara HuggingFace por defecto.")
+        llm_provider = "2"
+
     # Step 1: Load and chunk documents
     base_dir = os.path.dirname(os.path.dirname(__file__)) #  Build a robust absolute path (avoids path errors)
     file_path = os.path.join(base_dir, "data")
@@ -67,7 +75,7 @@ def main():
     prompt = build_prompt(query, top_chunks)
    
     # Step 10:Generate answer using LLM
-    answer = generate_answer(prompt)
+    answer = generate_answer(prompt, llm_provider)
     print("\n✅ Final Answer:\n")
     print(answer)
     print("---------------------------------------------------------------------------------")

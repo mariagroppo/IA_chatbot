@@ -26,7 +26,11 @@ def build_prompt(question: str, context_chunks: list) -> str:
             - Be precise.
             - Use technical language when relevant.
             - Do not invent information.
-
+            - Always refer to the context for your answer.
+            - If the context is insufficient, clearly state that you cannot answer.
+            - Answer in Spanish, unless the question is in English, then answer in English.
+            - Include the document name in the answer if the information is extracted from a specific document.
+            
             Answer.
             """
 

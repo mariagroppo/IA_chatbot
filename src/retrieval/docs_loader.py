@@ -1,6 +1,7 @@
 import os
 import re
 from pypdf import PdfReader
+""" from langchain_community.document_loaders import PyPDFLoader """
 from docx import Document
 from retrieval.chunking import chunk_text
 
@@ -14,6 +15,7 @@ def split_sections(text):
 """ Extracts text from a PDF file ---------------------------------------------------------------------------"""
 def extract_text_from_pdf(file_path: str) -> str:
     reader = PdfReader(file_path)
+    """ reader = PyPDFLoader(file_path)  # Use PyPDFLoader for better text extraction """
     structured_blocks = []
 
     for page in reader.pages:
@@ -90,7 +92,7 @@ def extract_text_from_txt(file_path: str) -> str:
         return f.read()
     
 
-""" Checks cgunk content --------------------------------------------------------------------------------------------"""
+""" Checks chunk content --------------------------------------------------------------------------------------------"""
 def is_valid_chunk(text):
     words = text.split()    
     if len(words) < 6:         # If it is too short, False.

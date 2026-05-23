@@ -1,5 +1,7 @@
 import faiss
 
+CHROMA_DB_PATH = "chroma_db"  # Path para la base de datos de Chroma (si se usa)
+
 class VectorStore:
     
     """Basic vector database using FAISS for similarity search. Stores both embeddings and original documents."""
